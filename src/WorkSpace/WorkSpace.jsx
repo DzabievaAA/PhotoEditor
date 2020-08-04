@@ -1,0 +1,35 @@
+import React , { useState, useEffect, useRef } from 'react';
+
+
+function WorkSpace () {
+  function previewFile() {
+    let canvas = document.querySelector('canvas');
+    let input = document.querySelector('input[type=file]');
+    if( input !== null ){
+      let file = input.files[0];
+      let reader  = new FileReader();
+      reader.onloadend = () => {
+        let img = new Image();
+        let ctx = canvas.getContext("2d");
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0);
+        }
+        img.src = reader.result;
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+  
+    return ( <div>
+        <input type="file"  onChange={ () => {
+          previewFile();
+        }}></input>
+        <canvas width="800" height="800"></canvas>
+      </div>
+    );
+  }
+
+  
+
+
+export default WorkSpace;

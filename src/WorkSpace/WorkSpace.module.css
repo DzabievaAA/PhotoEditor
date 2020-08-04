@@ -1,0 +1,10 @@
+.button {
+    position: absolute;
+    z-index: 2;
+    top: 40%;
+}
+.button2 {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+}

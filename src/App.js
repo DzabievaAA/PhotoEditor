@@ -1,14 +1,15 @@
 import React from 'react';
-import Canvas from './canvas/canvas.jsx'
 import './App.css';
+import WorkSpace from './WorkSpace/WorkSpace.jsx';
 
 
 function App() {
   return ( 
   <div className="App">
-      <Canvas/>
+      <WorkSpace/>
     </div>
   );
 }
 
 export default App;
+
