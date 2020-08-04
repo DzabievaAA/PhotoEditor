@@ -1,12 +1,13 @@
-import React , { useState, useEffect, useRef } from 'react';
+import React, {useRef}  from 'react';
 
 
 function WorkSpace () {
+  const input = useRef(null);
+
   function previewFile() {
     let canvas = document.querySelector('canvas');
-    let input = document.querySelector('input[type=file]');
-    if( input !== null ){
-      let file = input.files[0];
+    if( input.current !== null ){
+      let file = input.current.files[0];
       let reader  = new FileReader();
       reader.onloadend = () => {
         let img = new Image();
@@ -21,7 +22,7 @@ function WorkSpace () {
   }
   
     return ( <div>
-        <input type="file"  onChange={ () => {
+        <input type="file" ref={input}  onChange={ () => {
           previewFile();
         }}></input>
         <canvas width="800" height="800"></canvas>
