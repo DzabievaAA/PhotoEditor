@@ -1,48 +1,24 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import style from './Slider.module.css';
 
-
 function Slider () {
-
-const thumbRef = useRef(null);
-const sliderRef = useRef(null);
-
-useEffect(() => {
-    let slider = sliderRef.current;
-    let thumb = thumbRef.current;
-    thumb.onmousedown = function (event) {
-        event.preventDefault();
-        let shiftX = event.clientX - thumb.getBoundingClientRect().left;
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-        
-        function onMouseMove (event) {
-             let newLeft = event.clientX - shiftX - slider.getBoundingClientRect().left;
-                 if(newLeft < 0) {
-                     newLeft = 0;
-                    }
-             let rightEdge = slider.offsetWidth - thumb.offsetWidth;
-                 if (newLeft > rightEdge) {
-                     newLeft = rightEdge;
-                 }
-             thumb.style.left = newLeft + 'px';
-             }
-            function onMouseUp() {
-                 document.removeEventListener('mouseup', onMouseUp);
-                 document.removeEventListener('mousemove', onMouseMove);
-             }
-         }
-    
-     thumb.ondragstart = () => {
-         return false;
-     };
-
-});
-    return <div>
-        <div ref={sliderRef} className={style.slider}>
-            <div ref={thumbRef} className={style.thumb}></div>
-        </div>
-    </div>
+    const inputRef = useRef(null);
+    const paragraphRef = useRef(null);
+    useEffect(()=>{
+      let input = inputRef.current;
+      let paragraph = paragraphRef.current;
+      debugger;
+      input.addEventListener("input", function() {
+        paragraph.innerHTML =  input.value;
+    }, false); 
+    })
+    return <div className={style.slider_wrapper}>
+  <input type="range" min="0" max="2" step="0.01" list="tickmarks"></input>
+  <datalist className={style.tickmarks} id="tickmarks">
+  <option value="0" label="0"></option>
+  <option value="1" label="1"></option>
+  <option value="2" label="2"></option>
+  </datalist>
+</div>
 }
-
 export default Slider;
