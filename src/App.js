@@ -9,16 +9,6 @@ function App() {
   return ( 
   <div className="App">
       <WorkSpace/>
-      {/* <Slider/> */}
-      {/* <div>
-      <Slider_saturation onCange={}/>
-      </div>
-      <div>
-      <Slider_saturation/>
-      </div>
-      <div>
-      <Slider_saturation/>
-      </div> */}
     </div>
   );
 }

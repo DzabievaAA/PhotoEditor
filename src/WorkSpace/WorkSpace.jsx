@@ -1,5 +1,6 @@
 import React, {useRef}  from 'react';
-import Slider_saturation from '../Slider saturation/Slider_saturation'
+import Slider_saturation from '../Slider saturation/Slider_saturation';
+import styles from '../WorkSpace/WorkSpace.module.css'
 
 function WorkSpace () {
   const inputRef = useRef(null);
@@ -68,39 +69,53 @@ function WorkSpace () {
     }
   }
   
-    function onClickRed (e) {
+    function onRangeRed (e) {
       for (var i = 0; i < currentChanelRed.length; i++) {
         currentChanelRed[i] = origRedChanel[i]  * e;
       }
       renderImage()
     }
-    function onClickGreen (e) {
+    function onRangeGreen (e) {
       for (var i = 0; i < currentChanelGreen.length; i++) {
         currentChanelGreen[i] = origGreenChanel[i]  * e;
       }
       renderImage()
     }
-    function onClickBlue (e) {
+    function onRangeBlue (e) {
       for (var i = 0; i < currentChanelBlue.length; i++) {
         currentChanelBlue[i] = origBlueChanel[i]  * e;
       }
       renderImage()
     }
-    return ( <div>
-        <input type="file" ref={inputRef}  onChange={previewFile}></input>
-    <canvas  ref={canvasRef} width="800" height="800" ></canvas>
-        <div>
+    function download(){
+      let cnvs = canvasRef.current
+      var download = document.getElementById("download");
+      var image = cnvs.toDataURL("image/png")
+                  .replace("image/png", "image/octet-stream");
+      download.setAttribute("href", image);
 
-    <div>
-      <Slider_saturation callBack={onClickRed}/>
-      </div>
-      <div>
-      <Slider_saturation callBack={onClickGreen}/>
-      </div>
-      <div>
-      <Slider_saturation callBack={onClickBlue}/>
-      </div>
-</div>
+  }
+    return ( <div className={styles.wrapperWorkSpase}>
+        <div className={styles.wrapperInput}>
+          <input type="file" ref={inputRef}  onChange={previewFile}></input>
+        </div>
+
+        <div className={styles.wrapperCanvas}>
+        <canvas  ref={canvasRef}  ></canvas>
+        </div>
+<div><a id="download" download="image.png"><button type="button" onClick={download}>Download</button></a></div>
+      
+        <div className={styles.wrapperSliders}>
+          <div>
+          <Slider_saturation callBack={onRangeRed}/>
+          </div>
+          <div>
+          <Slider_saturation callBack={onRangeGreen}/>
+          </div>
+          <div>
+          <Slider_saturation callBack={onRangeBlue}/>
+          </div>
+        </div>
       </div>
     );
   }

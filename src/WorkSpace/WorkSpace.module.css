@@ -1,10 +1,7 @@
-.button {
-    position: absolute;
-    z-index: 2;
-    top: 40%;
+.wrapperWorkSpase {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
-.button2 {
-    position: absolute;
-    z-index: 2;
-    top: 50%;
+.wrapperCanvas {
+    max-height: 1 vh;
 }
