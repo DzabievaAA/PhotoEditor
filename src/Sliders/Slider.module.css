@@ -1,0 +1,10 @@
+.wrapperSliders {
+    opacity: 0.6;
+    width: 100%;
+    background: black;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    height: 30%;
+}
+
