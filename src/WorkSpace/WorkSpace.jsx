@@ -45,8 +45,10 @@ function WorkSpace ({mode, setMode} ) {
     }
     let imgData = new ImageData( imageWidth, imageHeight);
     imgData.data.set(collectedImageData);
-    ctx.putImageData(imgData, 0, 0, imageWidth, imageHeight,
-                              0, 0, cnvs.width, cnvs.height);
+    var ratioX = cnvs.width / imageWidth;
+          var ratioY = cnvs.height / imageHeight;
+          var ratio = Math.min(ratioX, ratioY);
+          ctx.putImageData(imgData, 0, 0,0,0, imageWidth * ratio, imageHeight * ratio);
   }
 
 
@@ -80,8 +82,9 @@ function WorkSpace ({mode, setMode} ) {
     }
   }
   
+  
     function onRangeRed (e) {
-      debugger;
+      
       for (var i = 0; i < currentChanelRed.length; i++) {
         currentChanelRed[i] = origRedChanel[i]  * e;
       }
@@ -135,7 +138,7 @@ function WorkSpace ({mode, setMode} ) {
           <input type="file" ref={inputRef}  onChange={previewFile}></input>
           </Col>
           <Col sm={6} className="justify-content-center canvas">
-          <canvas width="578" height="200" className={styles.canvas} ref={canvasRef}  ></canvas>
+          <canvas  className={styles.canvas} ref={canvasRef}  ></canvas>
           </Col>
           <Col sm={2} className="justify-content-center">
             <Tab.Content>

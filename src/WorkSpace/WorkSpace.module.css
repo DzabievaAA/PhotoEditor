@@ -6,12 +6,13 @@ body {
   position: absolute;
 } */
 
-.canvas {
-    object-fit: scale-down;
-    width: 100%; 
+ .canvas {
     height: 100%; 
-    overflow: inherit;
-}
+    width: 100%;
+    display: block;
+    overflow: hidden;
+ } 
+
 .container-fluid {
     display: flex;
     flex-direction: column;
