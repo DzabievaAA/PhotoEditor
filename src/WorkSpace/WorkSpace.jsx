@@ -125,35 +125,13 @@ function WorkSpace ({mode, setMode} ) {
     }
   }
   
-  // Функции для RGB изменений
-    function onRangeRed (e) {
-      
-      for (var i = 0; i < currentChanelRed.length; i++) {
-        currentChanelRed[i] = origRedChanel[i]  * e;
+// Функция для RGB изменений
+    function chanelChange (e,inputChanel, outputChanel) {
+      for (var i = 0; i < inputChanel.length; i++) {
+        outputChanel[i] = inputChanel[i]  * e;
       }
       renderImage()
-    }
-    function onRangeGreen (e) {
-      for (var i = 0; i < currentChanelGreen.length; i++) {
-        currentChanelGreen[i] = origGreenChanel[i]  * e;
-      }
-      renderImage()
-    }
-    function onRangeBlue (e) {
-      for (var i = 0; i < currentChanelBlue.length; i++) {
-        currentChanelBlue[i] = origBlueChanel[i]  * e;
-      }
-      renderImage()
-    }
-//Функция для контраста
-  function onRangeCntrst(e) {
-    for (var i = 0; i < currentChanelRed.length; i++) {
-      currentChanelAlfa[i] = origAlfaChanel[i]  * e;
-    }
-      renderImage()
-  }
-    
-
+    }  
   //Загрузка изображения на компьютер
     function download(){
       let cnvs = canvasRef.current
@@ -166,12 +144,12 @@ function WorkSpace ({mode, setMode} ) {
   let slidersRBG, slidersCntrst;
   if(mode == "RGB") {
     slidersRBG =  <Sliders_RGB  className={styles.sliders} 
-  onRangeRed={onRangeRed}
-  onRangeGreen={onRangeGreen} 
-  onRangeBlue={onRangeBlue} 
+  onRangeRed={(e)=>{chanelChange(e, origRedChanel, currentChanelRed)}}
+  onRangeGreen={(e)=>{chanelChange(e, origGreenChanel, currentChanelGreen)}} 
+  onRangeBlue={(e)=>{chanelChange(e, origBlueChanel, currentChanelBlue)}} 
   setMode={setMode} />;
   } else if (mode == "CNTRST") {
-    slidersCntrst = <Sliders_contrast onRangeCntrst={onRangeCntrst} setMode={setMode}/>
+    slidersCntrst = <Sliders_contrast onRangeCntrst={(e)=>{chanelChange(e, origAlfaChanel, currentChanelAlfa)}} setMode={setMode}/>
   }
   else if (mode == "NONE") {
     slidersRBG = null;
