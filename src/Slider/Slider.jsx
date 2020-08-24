@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
-import style from './Slider_saturation.module.css';
+import style from './Slider.module.css';
 
-function Slider_saturation ( { onRangeChange,Max} ) {
+function Slider ( { onRangeChange,Max} ) {
 
   const max = 2;
   const inputRef = useRef(null);
@@ -24,4 +24,4 @@ function Slider_saturation ( { onRangeChange,Max} ) {
   <p ref={paragraphRef}></p>
 </div>
 }
-export default Slider_saturation;
+export default Slider;

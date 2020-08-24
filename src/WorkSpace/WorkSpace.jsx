@@ -1,38 +1,81 @@
 import React, {useRef, useState}  from 'react';
 import styles from '../WorkSpace/WorkSpace.module.css'
-import Sliders from '../Sliders/Sliders';
+import Sliders_RGB from '../Sliders_RGB/Sliders_RGB';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import { Container, Nav, Tab, Row, Col } from 'react-bootstrap';
+import Sliders_contrast from '../Sliders_contrast/Sliders_contrast';
   let originalData;
   let origRedChanel;
   let origGreenChanel;
   let origBlueChanel;
+  let origAlfaChanel;
   let currentChanelRed;
   let currentChanelGreen;
   let currentChanelBlue;
+  let currentChanelAlfa;
   let imageWidth;
   let imageHeight;
 function WorkSpace ({mode, setMode} ) {
   const inputRef = useRef(null);
   const canvasRef = useRef(null);
   
-
+//разбиваем канвас на каналы
   function initChanel() {
     let cnvs = canvasRef.current;
     origRedChanel = new Uint8ClampedArray(imageWidth * imageHeight);
     origGreenChanel = new Uint8ClampedArray(imageWidth * imageHeight);
     origBlueChanel = new Uint8ClampedArray(imageWidth * imageHeight);
+    origAlfaChanel = new Uint8ClampedArray(imageWidth * imageHeight);
     for (var i = 0; i < originalData.length; i += 4) {
       origRedChanel[i / 4] = originalData[i];
       origGreenChanel[i / 4] = originalData[i+1];
       origBlueChanel[i / 4] = originalData[i+2];
+      origAlfaChanel[i / 4] = originalData[i+3];
     }
     currentChanelRed =[...origRedChanel];
     currentChanelGreen = [...origGreenChanel];
     currentChanelBlue = [...origBlueChanel];
-  
+    currentChanelAlfa = [...origAlfaChanel];
   };
+  function Gauss () {
+   let currentGaussRed = [...currentChanelRed];
+   let currentGaussGreen = [...currentChanelGreen];
+   let currentGaussBlue = [...currentChanelBlue];
+    // y = [...x];
+    // for(...)
+    // {
+    //   y = x*2;
+    // }
 
+    // x = y
+    for (let i = 0; i < currentChanelRed.length; i++) {
+      let ignore = i < imageWidth || i > imageWidth*imageHeight - imageWidth;
+      let column = i % imageWidth;
+      ignore = ignore || column === 0 || column === imageWidth - 1;
+      if(ignore){
+        continue;
+      }
+      currentGaussRed[i] = ((currentChanelRed[i - imageWidth]) + (currentChanelRed[i + imageWidth]) + 
+                            (currentChanelRed[i - 1]) + (currentChanelRed[i + 1]) + 
+                            currentChanelRed[i - imageWidth - 1] + currentChanelRed[i - imageWidth + 1] +
+                            (currentChanelRed[i + imageWidth - 1]) + (currentChanelRed[i + imageWidth + 1]) +
+                            (currentChanelRed[i] ))/9;
+
+      currentGaussGreen[i] = ((currentChanelGreen[i - imageWidth]) + (currentChanelGreen[i + imageWidth]) + 
+                            (currentChanelGreen[i - 1]) + (currentChanelGreen[i + 1]) + 
+                            currentChanelGreen[i - imageWidth - 1] + currentChanelGreen[i - imageWidth + 1] +
+                            (currentChanelGreen[i + imageWidth - 1]) + (currentChanelGreen[i + imageWidth + 1]) + (currentChanelGreen[i] ))/9;
+
+      currentGaussBlue[i] = ((currentChanelBlue[i - imageWidth]) + (currentChanelBlue[i + imageWidth]) + 
+                            (currentChanelBlue[i - 1]) + (currentChanelBlue[i + 1]) + 
+                            currentChanelBlue[i - imageWidth - 1] + currentChanelBlue[i - imageWidth + 1] +
+                            (currentChanelBlue[i + imageWidth - 1]) + (currentChanelBlue[i + imageWidth + 1]) + (currentChanelBlue[i] ))/9;
+    }
+    currentChanelRed = currentGaussRed;
+    currentChanelGreen = currentGaussGreen;
+    currentChanelBlue = currentGaussBlue;
+    renderImage();
+  }
   function renderImage() {
     let cnvs = canvasRef.current;
     let ctx = cnvs.getContext('2d');
@@ -41,7 +84,7 @@ function WorkSpace ({mode, setMode} ) {
       collectedImageData[i *4 ] = currentChanelRed[i];
       collectedImageData[i*4 + 1] = currentChanelGreen[i];
       collectedImageData[i*4 + 2] = currentChanelBlue[i];
-      collectedImageData[i*4 + 3] = 255; 
+      collectedImageData[i*4 + 3] = currentChanelAlfa[i]; 
     }
     let imgData = new ImageData( imageWidth, imageHeight);
     imgData.data.set(collectedImageData);
@@ -82,7 +125,7 @@ function WorkSpace ({mode, setMode} ) {
     }
   }
   
-  
+  // Функции для RGB изменений
     function onRangeRed (e) {
       
       for (var i = 0; i < currentChanelRed.length; i++) {
@@ -102,24 +145,39 @@ function WorkSpace ({mode, setMode} ) {
       }
       renderImage()
     }
+//Функция для контраста
+  function onRangeCntrst(e) {
+    for (var i = 0; i < currentChanelRed.length; i++) {
+      currentChanelAlfa[i] = origAlfaChanel[i]  * e;
+    }
+      renderImage()
+  }
+    
+
+  //Загрузка изображения на компьютер
     function download(){
       let cnvs = canvasRef.current
       var download = document.getElementById("download");
       var image = cnvs.toDataURL("image/png")
                   .replace("image/png", "image/octet-stream");
       download.setAttribute("href", image);
-
-  }
-  let slider;
-  if(mode == "ok") {
-  slider =  <Sliders  className={styles.sliders} 
+ }
+  //отрисовка слайдеров и закрытие на "крестик"
+  let slidersRBG, slidersCntrst;
+  if(mode == "RGB") {
+    slidersRBG =  <Sliders_RGB  className={styles.sliders} 
   onRangeRed={onRangeRed}
   onRangeGreen={onRangeGreen} 
   onRangeBlue={onRangeBlue} 
   setMode={setMode} />;
-  } else if (mode == "NONE") {
-    slider = null;
+  } else if (mode == "CNTRST") {
+    slidersCntrst = <Sliders_contrast onRangeCntrst={onRangeCntrst} setMode={setMode}/>
   }
+  else if (mode == "NONE") {
+    slidersRBG = null;
+  }
+
+
   return (<div>
       <Container>
       <Tab.Container id="ledt-tabs-example">
@@ -127,10 +185,10 @@ function WorkSpace ({mode, setMode} ) {
           <Col sm={2}>
             <Nav variant="pills" className="flex-column mt-2">
               <Nav.Item>
-                <Nav.Link eventKey="first" onClick={()=>{setMode("ok")}}> Colors Range </Nav.Link>
+                <Nav.Link eventKey="first" onClick={()=>{setMode("RGB")}}> Colors Range </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second"> Crop Image </Nav.Link>
+                <Nav.Link eventKey="second" onClick={()=>{setMode("CNTRST")}}> Contrast </Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
@@ -143,10 +201,10 @@ function WorkSpace ({mode, setMode} ) {
           <Col sm={2} className="justify-content-center">
             <Tab.Content>
               <Tab.Pane eventKey="first">
-                {slider}
+                {slidersRBG}
               </Tab.Pane>
               <Tab.Pane eventKey="second">
-                {slider}
+                {slidersCntrst}
               </Tab.Pane>
             </Tab.Content>
           </Col>
@@ -155,6 +213,9 @@ function WorkSpace ({mode, setMode} ) {
               <a id="download" download="image.png">
                 <button variant="dark" type="button" onClick={download}>
                   Download
+                </button>
+                <button variant="dark" type="button" onClick={Gauss}>
+                  Gausse
                 </button>
               </a>
           </div>

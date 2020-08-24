@@ -3,8 +3,8 @@ import {Navbar, Nav, Container} from 'react-bootstrap';
 import logo from '../img/529e2cc9c4f239a33a96a563d18f20ab.jpg'
 import { BrowserRouter as Router } from 'react-router-dom';
 import Switch from 'react-bootstrap/esm/Switch';
-import Sliders from '../Sliders/Sliders';
 import {Route } from "react-router-dom"
+import Sliders_RGB from '../Sliders_RGB/Sliders_RGB';
 
 function Navigation ({setMode}) {
     return (<div>

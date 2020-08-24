@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import Slider_saturation from "../Slider saturation/Slider_saturation";
+import Slider from "../Slider/Slider";
 import { Container, Row, Col } from 'react-bootstrap';
 import imgsxrv from '../img/kisspng-x-mark-check-mark-clip-art-wrong-sign-5b12e998675839.8614187915279661044233 (1).png'
 
-function Sliders ({onRangeRed, onRangeGreen, onRangeBlue,setMode }) {
+function Sliders_RGB ({onRangeRed, onRangeGreen, onRangeBlue,setMode }) {
   // useEffect(() => {
   //   if (isLoggedIn) {
   //     return <Sliders />;
@@ -13,15 +13,15 @@ function Sliders ({onRangeRed, onRangeGreen, onRangeBlue,setMode }) {
     return <Container>
       <Row>
           Red
-          <Slider_saturation onRangeChange={onRangeRed}/>
+          <Slider onRangeChange={onRangeRed}/>
       </Row>
       <Row>
           Green
-          <Slider_saturation onRangeChange={onRangeGreen}/>
+          <Slider onRangeChange={onRangeGreen}/>
       </Row>
       <Row>
           Blue
-          <Slider_saturation onRangeChange={onRangeBlue}/>
+          <Slider onRangeChange={onRangeBlue}/>
       </Row>
 
 
@@ -51,4 +51,4 @@ function Sliders ({onRangeRed, onRangeGreen, onRangeBlue,setMode }) {
 //   </div>
  }
 
-export default Sliders;
+export default Sliders_RGB;
