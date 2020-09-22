@@ -41,41 +41,47 @@ function WorkSpace ({mode, setMode} ) {
    let currentGaussRed = [...currentChanelRed];
    let currentGaussGreen = [...currentChanelGreen];
    let currentGaussBlue = [...currentChanelBlue];
-    // y = [...x];
-    // for(...)
-    // {
-    //   y = x*2;
-    // }
 
-    // x = y
-    for (let i = 0; i < currentChanelRed.length; i++) {
-      let ignore = i < imageWidth || i > imageWidth*imageHeight - imageWidth;
-      let column = i % imageWidth;
-      ignore = ignore || column === 0 || column === imageWidth - 1;
-      if(ignore){
-        continue;
+   function applyKernel (row, column, inputChanel, outputChanel) {
+
+     function twoDtoOneD (row, column, width) {
+      return row * width + column;
+     }
+
+     let currentIndex = twoDtoOneD( row, column, imageWidth );
+
+     outputChanel[ currentIndex ] = 0;
+     //todo : apply DRY
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row, column - 1, imageWidth)];
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row, column, imageWidth)];
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row, column + 1, imageWidth)];
+
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row -1 , column - 1, imageWidth)];
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row - 1, column, imageWidth)];
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row - 1, column + 1, imageWidth)];
+
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row + 1 , column - 1, imageWidth)];
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row + 1, column, imageWidth)];
+     outputChanel[ currentIndex ] += inputChanel[twoDtoOneD( row + 1, column + 1, imageWidth)];
+
+     outputChanel[ currentIndex ] /= 9;
+   }
+
+   for (let column = 1; column  < imageWidth - 1 ; column++ ) {
+     for (let row = 1; row < imageHeight - 1; row++){
+        applyKernel(row, column, currentChanelRed, currentGaussRed);
+        applyKernel(row,column, currentChanelGreen, currentGaussGreen);
+        applyKernel(row,column,currentChanelBlue, currentGaussBlue);
       }
-      currentGaussRed[i] = ((currentChanelRed[i - imageWidth]) + (currentChanelRed[i + imageWidth]) + 
-                            (currentChanelRed[i - 1]) + (currentChanelRed[i + 1]) + 
-                            currentChanelRed[i - imageWidth - 1] + currentChanelRed[i - imageWidth + 1] +
-                            (currentChanelRed[i + imageWidth - 1]) + (currentChanelRed[i + imageWidth + 1]) +
-                            (currentChanelRed[i] ))/9;
+   }
 
-      currentGaussGreen[i] = ((currentChanelGreen[i - imageWidth]) + (currentChanelGreen[i + imageWidth]) + 
-                            (currentChanelGreen[i - 1]) + (currentChanelGreen[i + 1]) + 
-                            currentChanelGreen[i - imageWidth - 1] + currentChanelGreen[i - imageWidth + 1] +
-                            (currentChanelGreen[i + imageWidth - 1]) + (currentChanelGreen[i + imageWidth + 1]) + (currentChanelGreen[i] ))/9;
-
-      currentGaussBlue[i] = ((currentChanelBlue[i - imageWidth]) + (currentChanelBlue[i + imageWidth]) + 
-                            (currentChanelBlue[i - 1]) + (currentChanelBlue[i + 1]) + 
-                            currentChanelBlue[i - imageWidth - 1] + currentChanelBlue[i - imageWidth + 1] +
-                            (currentChanelBlue[i + imageWidth - 1]) + (currentChanelBlue[i + imageWidth + 1]) + (currentChanelBlue[i] ))/9;
-    }
     currentChanelRed = currentGaussRed;
     currentChanelGreen = currentGaussGreen;
     currentChanelBlue = currentGaussBlue;
+
     renderImage();
   }
+
   function renderImage() {
     let cnvs = canvasRef.current;
     let ctx = cnvs.getContext('2d');
@@ -88,10 +94,10 @@ function WorkSpace ({mode, setMode} ) {
     }
     let imgData = new ImageData( imageWidth, imageHeight);
     imgData.data.set(collectedImageData);
-    var ratioX = cnvs.width / imageWidth;
-          var ratioY = cnvs.height / imageHeight;
-          var ratio = Math.min(ratioX, ratioY);
-          ctx.putImageData(imgData, 0, 0,0,0, imageWidth * ratio, imageHeight * ratio);
+
+    createImageBitmap( imgData ).then( (bitmap) => {
+      ctx.drawImage( bitmap, 0, 0, imageWidth, imageHeight, 0,0, cnvs.width,cnvs.height);
+    });
   }
 
 
@@ -107,8 +113,8 @@ function WorkSpace ({mode, setMode} ) {
         let imgNew = new Image();
         let ctx = canvas.getContext("2d");
         imgNew.onload = () => {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
+          canvas.width = imgNew.naturalWidth;
+          canvas.height = imgNew.naturalHeight;
           var ratioX = canvas.width / imgNew.naturalWidth;
           var ratioY = canvas.height / imgNew.naturalHeight;
           var ratio = Math.min(ratioX, ratioY);
@@ -143,7 +149,7 @@ function WorkSpace ({mode, setMode} ) {
   //отрисовка слайдеров и закрытие на "крестик"
   let slidersRBG, slidersCntrst;
   if(mode == "RGB") {
-    slidersRBG =  <Sliders_RGB  className={styles.sliders} 
+    slidersRBG =  <Sliders_RGB  className={styles.sliders}  
   onRangeRed={(e)=>{chanelChange(e, origRedChanel, currentChanelRed)}}
   onRangeGreen={(e)=>{chanelChange(e, origGreenChanel, currentChanelGreen)}} 
   onRangeBlue={(e)=>{chanelChange(e, origBlueChanel, currentChanelBlue)}} 
