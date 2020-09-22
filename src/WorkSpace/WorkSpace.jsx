@@ -198,10 +198,10 @@ function WorkSpace ({mode, setMode} ) {
                 <button variant="dark" type="button" onClick={download}>
                   Download
                 </button>
+              </a>
                 <button variant="dark" type="button" onClick={Gauss}>
                   Gausse
                 </button>
-              </a>
           </div>
           </Col>
         </Row>
