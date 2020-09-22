@@ -38,10 +38,13 @@ function WorkSpace ({mode, setMode} ) {
     currentChanelAlfa = [...origAlfaChanel];
   };
   function Gauss () {
-   let currentGaussRed = [...currentChanelRed];
-   let currentGaussGreen = [...currentChanelGreen];
-   let currentGaussBlue = [...currentChanelBlue];
-
+    if (currentChanelRed !== undefined && 
+      currentChanelGreen!== undefined &&
+      currentChanelBlue !== undefined) {
+    let currentGaussRed = [...currentChanelRed];
+    let currentGaussGreen = [...currentChanelGreen];
+    let currentGaussBlue = [...currentChanelBlue];
+      
    function applyKernel (row, column, inputChanel, outputChanel) {
 
      function twoDtoOneD (row, column, width) {
@@ -81,6 +84,8 @@ function WorkSpace ({mode, setMode} ) {
 
     renderImage();
   }
+}
+  
 
   function renderImage() {
     let cnvs = canvasRef.current;
@@ -132,12 +137,16 @@ function WorkSpace ({mode, setMode} ) {
   }
   
 // Функция для RGB изменений
-    function chanelChange (e,inputChanel, outputChanel) {
+function chanelChange (e,inputChanel, outputChanel) {
+  if (currentChanelRed !== undefined && 
+      currentChanelGreen !== undefined &&
+      currentChanelBlue !== undefined) {
       for (var i = 0; i < inputChanel.length; i++) {
         outputChanel[i] = inputChanel[i]  * e;
       }
       renderImage()
-    }  
+    } 
+  } 
   //Загрузка изображения на компьютер
     function download(){
       let cnvs = canvasRef.current
@@ -172,7 +181,7 @@ function WorkSpace ({mode, setMode} ) {
                 <Nav.Link eventKey="first" onClick={()=>{setMode("RGB")}}> Colors Range </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second" onClick={()=>{setMode("CNTRST")}}> Contrast </Nav.Link>
+                <Nav.Link eventKey="second" onClick={()=>{setMode("CNTRST")}}> Opacity </Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
