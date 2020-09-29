@@ -3,7 +3,7 @@ import styles from '../WorkSpace/WorkSpace.module.css'
 import Sliders_RGB from '../Sliders_RGB/Sliders_RGB';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import { Container, Nav, Tab, Row, Col } from 'react-bootstrap';
-import Sliders_contrast from '../Sliders_contrast/Sliders_contrast';
+import Sliders_opacity from '../Sliders_opacity/Sliders_opacity';
   let originalData;
   let origRedChanel;
   let origGreenChanel;
@@ -132,7 +132,9 @@ function WorkSpace ({mode, setMode} ) {
         }
         imgNew.src = reader.result;
       }
-      reader.readAsDataURL(file);
+      if (file !== undefined) {
+        reader.readAsDataURL(file);
+      }
     }
   }
   
@@ -163,8 +165,9 @@ function chanelChange (e,inputChanel, outputChanel) {
   onRangeGreen={(e)=>{chanelChange(e, origGreenChanel, currentChanelGreen)}} 
   onRangeBlue={(e)=>{chanelChange(e, origBlueChanel, currentChanelBlue)}} 
   setMode={setMode} />;
-  } else if (mode == "CNTRST") {
-    slidersCntrst = <Sliders_contrast onRangeCntrst={(e)=>{chanelChange(e, origAlfaChanel, currentChanelAlfa)}} setMode={setMode}/>
+} else if (mode == "OPCTY") {
+  debugger
+    slidersCntrst = <Sliders_opacity onRangeOpacity={(e)=>{chanelChange(e, origAlfaChanel, currentChanelAlfa)}} setMode={setMode}/>
   }
   else if (mode == "NONE") {
     slidersRBG = null;
@@ -175,27 +178,27 @@ function chanelChange (e,inputChanel, outputChanel) {
       <Container>
       <Tab.Container id="ledt-tabs-example">
         <Row>
-          <Col sm={2}>
+          <Col className={styles.leftNavbar} sm={2}>
             <Nav variant="pills" className="flex-column mt-2">
               <Nav.Item>
-                <Nav.Link eventKey="first" onClick={()=>{setMode("RGB")}}> Colors Range </Nav.Link>
+                <Nav.Link className={styles.inputButton}  eventKey="first" onClick={()=>{setMode("RGB")}}> <span>Colors Range</span> </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second" onClick={()=>{setMode("CNTRST")}}> Opacity </Nav.Link>
+                <Nav.Link className={styles.inputButton} eventKey="second" onClick={()=>{setMode("OPCTY")}}> <span>Opacity</span> </Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
-          <Col sm={1} className="justify-content-start">
-            <button onClick={(e)=>{
+          <Col sm={6} className="justify-content-center">
+            <button className={styles.inputButton} onClick={(e)=>{
               let input = inputRef.current;
               input.click ()
-            }}>Load Photo</button>
+            }}><span class="link-content">Load file</span></button>
           <input className={styles.inputTypeFile} type="file" ref={inputRef}  onChange={previewFile}></input>
+          <div className={styles.wrapperOnCanvas} className="justify-content-center">
+          <canvas className={styles.canvas} ref={canvasRef} width="500" height="500" ></canvas>
+          </div>
           </Col>
-          <Col sm={6} className="justify-content-center canvas">
-          <canvas  className={styles.canvas} ref={canvasRef}  ></canvas>
-          </Col>
-          <Col sm={2} className="justify-content-center">
+          <Col sm={2} className={styles.slidersOpenBlock} className="justify-content-center">
             <Tab.Content>
               <Tab.Pane eventKey="first">
                 {slidersRBG}
@@ -205,15 +208,15 @@ function chanelChange (e,inputChanel, outputChanel) {
               </Tab.Pane>
             </Tab.Content>
           </Col>
-          <Col sm={1}>
+          <Col className={styles.leftNavbar} sm={2}>
             <div>
               <a id="download" download="image.png">
-                <button variant="dark" type="button" onClick={download}>
-                  Download
+                <button className={styles.inputButton} variant="dark" type="button" onClick={download}>
+                <span class="link-content">Download</span>
                 </button>
               </a>
-                <button variant="dark" type="button" onClick={Gauss}>
-                  Gausse
+                <button className={styles.inputButton} variant="dark" type="button" onClick={Gauss}>
+                <span class="link-content">Gausse</span>
                 </button>
           </div>
           </Col>

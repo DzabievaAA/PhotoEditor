@@ -1,10 +1,9 @@
 .wrapperSliders {
     opacity: 0.6;
     width: 100%;
-    background: black;
-    display:flex;
-    justify-content:center;
-    align-items: center;
-    /* height: 30%; */
+    justify-content: center;
+    background-color: #7BDFF2;
 }
-
+.RGB_names{
+    padding-left: 33%;
+}

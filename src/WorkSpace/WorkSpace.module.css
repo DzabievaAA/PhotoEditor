@@ -2,21 +2,83 @@ body {
     margin: 0; 
     padding: 0
 }
-/* .wrapperWorkSpase {
-  position: absolute;
-} */
+* {
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
 
- .canvas {
-    height: 100%; 
-    width: 100%;
-    display: block;
-    overflow: hidden;
- } 
-
+canvas {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+  height: 500px;
+  object-fit: contain;
+}
 .container-fluid {
     display: flex;
     flex-direction: column;
   }
   .inputTypeFile {
     display: none;
+  } 
+
+    .inputButton {
+      margin-top: 5%;
+      margin-bottom: 5%;
+      background: transparent;
+      border-width: 0;
+      position: relative;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      transition: .3s;
   }
+  
+  .inputButton span {
+      display: block;
+      position: relative;
+      z-index: 3;
+      background: #2B4141;
+      color: white;
+      padding: 0 30px;
+      line-height: 30px;
+  }
+  
+  .inputButton:before {
+      content: "";
+      position: absolute;
+      width: calc(100% + 5px);
+      height: calc(100% + 5px);
+      left: -5px;
+      top: -5px;
+      background: #34E4EA;
+      z-index: 1;
+      transition: .4s ease-out;
+  }
+  
+  .inputButton:after {
+      content: "";
+      position: absolute;
+      width: calc(100% + 5px);
+      height: calc(100% + 5px);
+      right: -5px;
+      bottom: -5px;
+      background: #0EB1D2;
+      transition: .4s ease-out .1s;
+  }
+  
+  .inputButton:hover:before {
+      transform: translate(5px, 5px);
+  }
+  
+  .inputButton:hover:after {
+      transform: translate(-5px, -5px);
+  }
+
+
+
+.leftNavbar {
+  background-color: #B47EB3;
+  opacity: 90%;
+}

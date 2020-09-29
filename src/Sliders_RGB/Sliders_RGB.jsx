@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import Slider from "../Slider/Slider";
+import styles from '../Sliders_RGB/Sliders_RGB.module.css'
 import { Container, Row, Col } from 'react-bootstrap';
 import imgsxrv from '../img/kisspng-x-mark-check-mark-clip-art-wrong-sign-5b12e998675839.8614187915279661044233 (1).png'
 
@@ -10,17 +11,23 @@ function Sliders_RGB ({onRangeRed, onRangeGreen, onRangeBlue,setMode }) {
   //   }
   //   return null;
   // });
-    return <Container>
+    return <Container className={styles.wrapperSliders}>
       <Row>
+        <p className={styles.RGB_names}>
           Red
+        </p>
           <Slider onRangeChange={onRangeRed}/>
       </Row>
       <Row>
+      <p className={styles.RGB_names}>
           Green
+        </p>
           <Slider onRangeChange={onRangeGreen}/>
       </Row>
       <Row>
+      <p className={styles.RGB_names}>
           Blue
+        </p>
           <Slider onRangeChange={onRangeBlue}/>
       </Row>
 

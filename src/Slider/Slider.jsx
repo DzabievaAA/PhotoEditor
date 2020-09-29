@@ -17,9 +17,9 @@ function Slider ( { onRangeChange,Max} ) {
     return <div className={style.slider_wrapper}>
   <input ref={inputRef} type="range" min="0" max={Max} step="1" list="tickmarks"></input>
   <datalist className={style.tickmarks} id="tickmarks">
-  <option value="0" label="0"></option>
-  <option value="1" label="1"></option>
-  <option value="2" label="2"></option>
+  <option value="0" ></option>
+  <option value="1" ></option>
+  <option value="2" ></option>
   </datalist>
   <p ref={paragraphRef}></p>
 </div>
