@@ -185,8 +185,12 @@ function chanelChange (e,inputChanel, outputChanel) {
               </Nav.Item>
             </Nav>
           </Col>
-          <Col sm={1} className="justify-content-center">
-          <input type="file" ref={inputRef}  onChange={previewFile}></input>
+          <Col sm={1} className="justify-content-start">
+            <button onClick={(e)=>{
+              let input = inputRef.current;
+              input.click ()
+            }}>Load Photo</button>
+          <input className={styles.inputTypeFile} type="file" ref={inputRef}  onChange={previewFile}></input>
           </Col>
           <Col sm={6} className="justify-content-center canvas">
           <canvas  className={styles.canvas} ref={canvasRef}  ></canvas>

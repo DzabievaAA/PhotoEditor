@@ -20,9 +20,6 @@ function Navigation ({setMode}) {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id='responsive-navbar-nav'>
                         <Nav className="mr-auto">
-                            <Nav.Link href="/"> Home </Nav.Link>
-                            <Nav.Link onClick={()=>{setMode("ok")}}> Color range </Nav.Link>
-                            <Nav.Link href="/"> Something </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
