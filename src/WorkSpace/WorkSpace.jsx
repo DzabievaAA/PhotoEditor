@@ -192,7 +192,7 @@ function chanelChange (e,inputChanel, outputChanel) {
             <button className={styles.inputButton} onClick={(e)=>{
               let input = inputRef.current;
               input.click ()
-            }}><span class="link-content">Load file</span></button>
+            }}><span className="link-content">Load file</span></button>
           <input className={styles.inputTypeFile} type="file" ref={inputRef}  onChange={previewFile}></input>
           <div className={styles.wrapperOnCanvas} className="justify-content-center">
           <canvas className={styles.canvas} ref={canvasRef} width="500" height="500" ></canvas>
@@ -212,11 +212,11 @@ function chanelChange (e,inputChanel, outputChanel) {
             <div>
               <a id="download" download="image.png">
                 <button className={styles.inputButton} variant="dark" type="button" onClick={download}>
-                <span class="link-content">Download</span>
+                <span className="link-content">Download</span>
                 </button>
               </a>
                 <button className={styles.inputButton} variant="dark" type="button" onClick={Gauss}>
-                <span class="link-content">Gausse</span>
+                <span className="link-content">Gausse</span>
                 </button>
           </div>
           </Col>
