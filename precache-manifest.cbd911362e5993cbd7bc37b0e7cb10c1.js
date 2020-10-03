@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1d547ed360495d3923300268234480ec",
+    "revision": "7ef5e95ff2fd3f57a4599d06aedfa0cb",
     "url": "/PhotoEditor/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/PhotoEditor/static/css/2.11829350.chunk.css"
   },
   {
-    "revision": "a64ff021c204b2182028",
+    "revision": "456adb1158d1fe741ae9",
     "url": "/PhotoEditor/static/css/main.35dca5bd.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/PhotoEditor/static/js/2.53b72ea7.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a64ff021c204b2182028",
-    "url": "/PhotoEditor/static/js/main.eee1d943.chunk.js"
+    "revision": "456adb1158d1fe741ae9",
+    "url": "/PhotoEditor/static/js/main.e2035897.chunk.js"
   },
   {
     "revision": "bf889d90fa7ed0faed6b",
