@@ -101,7 +101,8 @@ function WorkSpace ({mode, setMode} ) {
     imgData.data.set(collectedImageData);
 
     createImageBitmap( imgData ).then( (bitmap) => {
-      ctx.drawImage( bitmap, 0, 0, imageWidth, imageHeight, 0,0, cnvs.width,cnvs.height);
+      ctx.clearRect(0, 0, cnvs.width, cnvs.height)
+      ctx.drawImage( bitmap, 0, 0, imageWidth, imageHeight, 0,0, cnvs.width, cnvs.height);
     });
   }
 
@@ -166,7 +167,6 @@ function chanelChange (e,inputChanel, outputChanel) {
   onRangeBlue={(e)=>{chanelChange(e, origBlueChanel, currentChanelBlue)}} 
   setMode={setMode} />;
 } else if (mode == "OPCTY") {
-  debugger
     slidersCntrst = <Sliders_opacity onRangeOpacity={(e)=>{chanelChange(e, origAlfaChanel, currentChanelAlfa)}} setMode={setMode}/>
   }
   else if (mode == "NONE") {
